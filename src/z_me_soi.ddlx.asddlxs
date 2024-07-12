@@ -1,0 +1,96 @@
+@Metadata.layer: #CORE
+@UI:{
+       headerInfo:{
+                typeName: 'Item',
+                typeNamePlural: 'Items',
+                title:{
+                        type: #STANDARD,
+                        label: 'Connections',
+                        value: 'Itempos'
+                },
+                description:{
+                        type: #STANDARD,
+                        value: 'ProdName'
+                },imageUrl: 'ProdPicture'
+
+       }
+}
+annotate view z_c_soi with
+{
+  @UI.facet: [
+      {
+        id: 'itemInfo',
+        purpose: #STANDARD,
+        position: 10,
+        label: 'Sales Order Item',
+        type: #COLLECTION
+      },
+
+          {  type: #FIELDGROUP_REFERENCE ,
+             label : 'Item information',
+             parentId: 'itemInfo',
+             id: 'Information' ,
+             position: 10,
+             targetQualifier: 'itemInf'
+          },
+          { type: #FIELDGROUP_REFERENCE ,
+             label : 'Item Total',
+             parentId: 'itemInfo',
+             id: 'Totals' ,
+             position: 20,
+             targetQualifier: 'itemTot'
+          },
+       {
+         purpose: #HEADER,
+         position: 10,
+         importance: #HIGH,
+         type: #DATAPOINT_REFERENCE,
+         targetQualifier: 'NetAmount'
+       }
+  ]
+
+  @UI:{
+       fieldGroup: [{ qualifier: 'itemInf', position: 10 ,importance: #HIGH}] // identification group postion
+  }
+  Itempos;
+
+  @UI.lineItem: [ { position: 10 ,importance: #HIGH, label: ' ' } ] 
+   ProdPicture;
+
+  @UI:{
+       lineItem: [ 
+                   {position: 20, importance: #HIGH } ], //report position
+       selectionField: [{ position:20 }], // filter position
+       fieldGroup: [{ qualifier: 'itemInf', position: 20 ,importance: #HIGH}] // identification group postion
+  }
+  @EndUserText: {
+     label:     'Product',
+     quickInfo: 'Product'
+  }
+  Prodid;
+
+  @UI:{
+        lineItem: [{ position: 30 }], //report position
+        fieldGroup: [{ qualifier: 'itemInf', position: 30 ,importance: #HIGH}] // identification group postion
+  }
+  Quantity;
+
+  @UI:{
+        lineItem: [{ position: 40 }], //report position
+        fieldGroup: [{ qualifier: 'itemTot', position: 10 ,importance: #HIGH}] // identification group postion
+    }
+  Grossamount;
+  @UI:{
+        lineItem: [{ position: 50 }], //report position
+        fieldGroup: [{ qualifier: 'itemTot', position: 20 ,importance: #HIGH}] // identification group postion
+    }
+  @UI.dataPoint.title: 'Net Amount'
+  NetAmount;
+
+  @UI:{
+      lineItem: [{ position: 60 }], //report position
+      fieldGroup: [{ qualifier: 'itemInf', position: 40 ,importance: #HIGH}] // identification group postion
+  }
+  Available;
+
+}

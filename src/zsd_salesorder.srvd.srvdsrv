@@ -1,0 +1,14 @@
+@EndUserText.label: 'Service Definition SalesOrder Manager'
+define service Zsd_salesorder {
+  expose z_c_soh as SalesOrder;
+  expose z_c_soi as Item;
+  expose I_Currency as Currency;
+  expose z_vh_overallstatus as OvStatus;
+  expose z_vh_billingstatus as BillStatus;
+  expose z_vh_deliveryStatus as DelivStatus;
+  expose z_vh_paymentMethod as PayMethod;
+  expose z_vh_paymentTerms as PayTerms;
+  expose z_vh_atp as Atp;
+  expose z_vh_PrdName as Pdesc;
+  expose SEPM_I_BusinessPartner as Partner;
+}

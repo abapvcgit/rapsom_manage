@@ -1,0 +1,169 @@
+@Metadata.layer: #CORE
+@UI:{
+       headerInfo:{
+                typeName: 'Sales Order List',
+                typeNamePlural: 'Sales Orders List',
+                title:{
+                        type: #STANDARD,
+                        label: 'Order ID',
+                        value: 'Salesorderid'
+                },
+                description:{
+                        type: #STANDARD,
+                        value: 'PartnerName',
+                        label: 'Partner'
+                }
+       }
+}
+annotate view z_c_soh with 
+{
+  @UI.facet: [
+        {
+           id: 'salesorder_info',
+           purpose: #STANDARD,
+           position: 10,
+           label: 'Sales Order',
+           type: #COLLECTION
+         },
+            { type: #FIELDGROUP_REFERENCE ,
+              label : 'Sales Order Information',
+              parentId: 'salesorder_info',
+              id: 'Information' ,
+              position: 10,
+              targetQualifier: 'information'
+             },
+             { type: #FIELDGROUP_REFERENCE ,
+              label : 'Total',
+              parentId: 'salesorder_info',
+              id: 'Total' ,
+              position: 20,
+              targetQualifier: 'total'
+             },
+             {
+                purpose: #STANDARD,
+                position: 20,
+                importance: #HIGH,
+                label: 'Items Detail',
+                type: #LINEITEM_REFERENCE,
+                targetElement: '_Item'
+             },
+  /* Header facets */
+       {
+            purpose:    #HEADER,
+            position:   10,
+            importance: #HIGH,
+            type:       #DATAPOINT_REFERENCE,
+            targetQualifier: 'Overallstatus'
+       },
+
+      {
+            purpose:    #HEADER,
+            position:   20,
+            importance: #HIGH,
+            type:       #FIELDGROUP_REFERENCE,
+            targetQualifier: 'AdminDataCreated'
+      }
+
+  ]
+
+  @UI:{
+        lineItem: [{ position: 10 }], //report position
+        selectionField: [{ position: 1 }], // filter position
+        fieldGroup: [{ qualifier: 'information', position: 10 ,importance: #HIGH}] // identification group postion
+  }
+  Salesorderid;
+
+  @UI:{
+      lineItem: [{ position: 20 },
+                 { type: #FOR_ACTION, dataAction:'createSoByTemplate', label: 'Create Order by Template' } ],
+      selectionField: [{ position: 20 }],
+      fieldGroup: [{ qualifier: 'information', position: 20 ,importance: #HIGH}]
+  }
+  Businesspartner;
+
+  @UI:{
+       lineItem: [{ position: 30, label: 'Overall Status', criticality: '_OvStatus.StatusCriticality'}]
+  }
+  @UI.textArrangement: #TEXT_ONLY
+  @UI.dataPoint: {
+      title: 'Overall Status',
+      criticality: '_OvStatus.StatusCriticality'
+    }
+  Overallstatus;
+
+  @UI:{
+       lineItem: [{ position: 40, label: 'Delivery Status', criticality: '_DelivStatus.deliveryCriticaly'}], //report position
+          fieldGroup: [{ qualifier: 'information', position: 30 ,importance: #HIGH,
+                         criticality: '_DelivStatus.deliveryCriticaly',label: 'Delivery Status'}],// identification group postion
+          identification: [{ position: 10 , type: #FOR_ACTION, dataAction: 'SetDelivered', label: 'Set as Delivered' }]               
+  }
+  Deliverystatus;
+
+  @UI:{
+        lineItem: [{ position: 50 , label: 'Billing Status', criticality: '_BillStatus.PaidCriticaly'}],
+        fieldGroup: [{ qualifier: 'information', position: 40 ,importance: #HIGH, criticality: '_BillStatus.PaidCriticaly',
+                                   label: 'Billing Status'}],
+        identification: [{ position: 20, type: #FOR_ACTION, dataAction: 'SetPaid', label: 'Set Paid'}]
+  }
+  @UI.textArrangement: #TEXT_ONLY
+ 
+  Billingstatus;
+
+  @UI:{
+        lineItem: [{ position: 60 }], //report position
+        fieldGroup: [{ qualifier: 'total', position: 10 ,importance: #HIGH}]
+  }
+  Grossamount;
+
+  @UI:{
+        lineItem: [{ position: 70 }], //report position
+        fieldGroup: [{ qualifier: 'total', position: 20 ,importance: #HIGH}]// identification group postion
+  }
+  Netamount;
+
+  @UI:{
+       lineItem: [{ position: 80 }], //report position
+       fieldGroup: [{ qualifier: 'information', position: 50 ,importance: #HIGH} ]
+  }
+  @UI.textArrangement: #TEXT_ONLY
+  Paymentmethod;
+
+  @UI:{
+       lineItem: [{ position: 90 }], //report position
+        fieldGroup: [{ qualifier: 'information', position: 60 ,importance: #HIGH} ]
+  }
+  @UI.textArrangement: #TEXT_ONLY
+  Paymentterms;
+
+  @UI:{
+       lineItem: [{ position: 100 }], //report position
+        fieldGroup: [{ qualifier: 'information', position: 70 ,importance: #HIGH} ]
+  }
+  Deliverydate;
+  @UI:{
+    fieldGroup: [{ qualifier: 'AdminDataCreated', position: 10 ,label: 'Updated By',importance: #HIGH}]
+  }
+  Lastchangedby;
+
+  @UI:{
+      fieldGroup: [{ qualifier: 'AdminDataCreated', position: 20 ,label: 'Updated',importance: #HIGH}]
+  }
+  Lastchangedat;
+
+  @UI.hidden: true
+  PartnerName;
+  @UI.hidden: true
+  StatusTxt;
+  @UI.hidden: true
+  BillTxT;
+  @UI.hidden: true
+  DelStatusTxT;
+  @UI.hidden: true
+  Createdby;
+  @UI.hidden: true
+  Createdat;
+  @UI.hidden: true
+  Orderuuid;
+
+
+}
